@@ -1,12 +1,18 @@
+import configparser
+import torch
+config = configparser.ConfigParser()
+config.read("config.ini")
+
+
 class Worker():
     def __init__(self,trainset,valset,testset):
-        self.trainLoader = torch.utils.data.DataLoader(trainset,batch_size=args.batch_size,shuffle=True,num_workers=2)
-        self.valLoader = torch.utils.data.DataLoader(valset,batch_size=args.batch_size,shuffle=False,num_workers=2)
-        self.trainLoader = torch.utils.data.DataLoader(testset,batch_size=args.batch_size,shuffle=False,num_workers=2)
+        self.trainLoader = torch.utils.data.DataLoader(trainset,batch_size=config["WORKER"]["batch_size"],shuffle=True,num_workers=2)
+        self.valLoader = torch.utils.data.DataLoader(valset,batch_size=config["WORKER"]["batch_size"],shuffle=False,num_workers=2)
+        self.trainLoader = torch.utils.data.DataLoader(testset,batch_size=config["WORKER"]["batch_size"],shuffle=False,num_workers=2)
         self.model=None
         self.train_data_num = len(trainset)
         self.test_data_num = len(testset)
-        self.aggregation_weight = None
+        
 
     def local_train(self):
         acc_train,loss_train = train(self.model,args.criterion,self.trainloader,args.local_epochs)
