@@ -21,9 +21,24 @@ import pickle
 import csv
 import time
 import math
+import configparser
+import Worker
 
 # main process
 
+#read a config file
+config = configparser.ConfigParser()
+config.read("config.ini")
+# generate workers
+workers = []
+for i in range(int(config["WORKER"]["worker_num"])):
+    worker = Worker(i,distributed_trainset[i],distribute_valset[i],distributed_testset[i])
+    workers.append(worker)
+
+#start training
+for epoch
+
+    
 # define a function for creating datasets
 def get_dataset(Centralized=False,unlabeled_data=False):
 
